@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), ProvideViewModel {
         viewModel = viewModel(NewsViewModel::class.java)
 
         binding.loadButton.setOnClickListener {
-            viewModel.loadNewsByKeyWord("putin")
+            viewModel.loadNewsByKeyWord()
         }
 
         viewModel.newsLiveData().observe(this) { uiState ->

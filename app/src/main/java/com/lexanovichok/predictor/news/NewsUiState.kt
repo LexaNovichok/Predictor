@@ -8,20 +8,10 @@ interface NewsUiState {
 
     fun update(binding: ActivityMainBinding)
 
-    abstract class Abstract(
-        private val newsText: String,
-        private val loadVisibility: Boolean,
-        private val progressVisibility: Boolean
-    ) : NewsUiState {
-
-        override fun update(binding: ActivityMainBinding) {
-
-        }
-    }
-
     object Initial : NewsUiState {
         override fun update(binding: ActivityMainBinding) {
-            binding.newsTV.visibility = View.INVISIBLE
+            binding.news1TV.visibility = View.INVISIBLE
+            binding.news2TV.visibility = View.INVISIBLE
             binding.loadButton.visibility = View.VISIBLE
             binding.progressBar.visibility = View.GONE
         }
@@ -31,8 +21,10 @@ interface NewsUiState {
         private val errorText : String
     ) : NewsUiState {
         override fun update(binding: ActivityMainBinding) {
-            binding.newsTV.text = errorText
-            binding.newsTV.visibility = View.VISIBLE
+            binding.news1TV.text = errorText
+            binding.news1TV.visibility = View.VISIBLE
+            binding.news2TV.text = errorText
+            binding.news2TV.visibility = View.VISIBLE
             binding.loadButton.visibility = View.VISIBLE
             binding.progressBar.visibility = View.GONE
         }
@@ -40,19 +32,22 @@ interface NewsUiState {
 
     object Loading : NewsUiState {
         override fun update(binding: ActivityMainBinding) {
-            binding.newsTV.visibility = View.INVISIBLE
+            binding.news1TV.visibility = View.INVISIBLE
+            binding.news2TV.visibility = View.INVISIBLE
             binding.loadButton.visibility = View.INVISIBLE
             binding.progressBar.visibility = View.VISIBLE
         }
     }
 
     data class Success (
-        private val articles : List<Articles>?
+        private val articles : NewsResponse?
     ) : NewsUiState {
         override fun update(binding: ActivityMainBinding) {
-            Log.d("API", "text = ${articles?.get(0)?.content}")
-            binding.newsTV.text = articles?.get(0)?.content ?: "Some retrofit2 error while loading"
-            binding.newsTV.visibility = View.VISIBLE
+            binding.news1TV.text = articles?.newsReal ?: "Some retrofit2 error while loading"
+            binding.news1TV.visibility = View.VISIBLE
+            binding.news2TV.text = articles?.newsFake ?: "Some retrofit2 error while loading"
+            binding.news2TV.visibility = View.VISIBLE
+
             binding.loadButton.visibility = View.VISIBLE
             binding.progressBar.visibility = View.GONE
         }

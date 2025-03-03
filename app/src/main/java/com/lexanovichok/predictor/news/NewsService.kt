@@ -13,44 +13,44 @@ import retrofit2.http.Query
 
 interface NewsService {
 
-    @GET("everything")
-    suspend fun loadNewsByName(@Query("q") name: String): Response<NewsResponse>
+    @GET("get2")
+    suspend fun loadNewsByName(): Response<NewsResponse>
 
 
     object Base : NewsService {
 
-        private const val BASE_URL : String = "https://newsapi.org/v2/"
-        private const val API_KEY = "17e2b975fb4444bf8f73c055bf67ee95"
+        private const val BASE_URL : String = "http://194.116.217.63:8008/api/news/"
+        //private const val API_KEY = "17e2b975fb4444bf8f73c055bf67ee95"
 
-        override suspend fun loadNewsByName(name: String): Response<NewsResponse> {
+        override suspend fun loadNewsByName(): Response<NewsResponse> {
 
-            val interceptor = Interceptor { chain ->
-                val original = chain.request()
-                val originalUrl = original.url
-
-                val newUrl = originalUrl.newBuilder()
-                    .addQueryParameter("apiKey", API_KEY)
-                    .build()
-
-                val newRequest = original.newBuilder()
-                    .url(newUrl)
-                    .build()
-
-                chain.proceed(newRequest)
-            }
-
-            val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .build()
+//            val interceptor = Interceptor { chain ->
+//                val original = chain.request()
+//                val originalUrl = original.url
+//
+//                val newUrl = originalUrl.newBuilder()
+//                    .addQueryParameter("apiKey", API_KEY)
+//                    .build()
+//
+//                val newRequest = original.newBuilder()
+//                    .url(newUrl)
+//                    .build()
+//
+//                chain.proceed(newRequest)
+//            }
+//
+//            val okHttpClient = OkHttpClient.Builder()
+//                .addInterceptor(interceptor)
+//                .build()
 
             val retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .client(okHttpClient)
+                //.client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
             val service : NewsService = retrofit.create(NewsService::class.java)
-            val actual = service.loadNewsByName(name)
+            val actual = service.loadNewsByName()
             return actual
         }
 

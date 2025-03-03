@@ -13,15 +13,15 @@ class NewsViewModel(
 
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-    fun loadNewsByKeyWord(keyWord : String) {
+    fun loadNewsByKeyWord() {
         newsUiState.update(NewsUiState.Loading)
         viewModelScope.launch {
             try {
-                val response = newsRepo.loadNewsByName(keyWord)
+                val response = newsRepo.loadNewsByName()
                 if (response.isSuccessful) {
-                    val articles = response.body()?.articles
+                    val articles = response.body()
 
-                    if (!articles.isNullOrEmpty()) {
+                    if (articles != null) {
                         newsUiState.update(NewsUiState.Success(articles))
                     } else {
                         newsUiState.update(NewsUiState.Initial)
