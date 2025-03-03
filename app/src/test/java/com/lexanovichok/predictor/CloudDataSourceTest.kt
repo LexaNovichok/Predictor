@@ -27,7 +27,7 @@ class CloudDataSourceTest {
     @Test
     fun test_200() = runBlocking {
         service.response =
-            Response.success("{ \"name\": \"userName\", \"id\": 1001 }".toResponseBody("application/json".toMediaType()))
+            Response.success(UserCloud.Base(name = "userName", id = 1001))
 
         val actual: UserCloud = cloudDataSource.fetch()
 
@@ -74,7 +74,7 @@ class CloudDataSourceTest {
     }
 }
 
-private class FakeService : ApiService {
+private class FakeService : ApiNewsService {
 
     var response: Response<UserCloud>? = null
 

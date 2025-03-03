@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.lexanovichok.predictor"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.lexanovichok.predictor"
@@ -32,6 +32,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 }
 
